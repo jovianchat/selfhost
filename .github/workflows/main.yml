@@ -37,6 +37,7 @@ jobs:
       #   with:
       #     path: artifacts
 
+      - run: git tag -l
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
