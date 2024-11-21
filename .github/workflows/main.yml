@@ -2,8 +2,8 @@ name: Production - Publish Docker Image to GHCR
 
 on:
   push:
-    tags:
-      - "v*"
+    # tags:
+    #   - "v*"
 
 env:
   REGISTRY: ghcr.io
@@ -28,6 +28,7 @@ jobs:
       # For pushing to GHCR
       packages: write
       # For attestation step
+      contents: read
       id-token: write
       attestations: write
 
