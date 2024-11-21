@@ -27,8 +27,8 @@ jobs:
       # For pushing to GHCR
       packages: write
       # For attestation step
-      id-token: write
-      attestations: write
+      # id-token: write
+      # attestations: write
 
     steps:
       - uses: actions/checkout@v4
