@@ -2,7 +2,7 @@ name: Staging
 
 on:
   push:
-    branches: [release/*]
+    branches: [released/*]
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-staging
