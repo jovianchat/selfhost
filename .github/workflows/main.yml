@@ -27,8 +27,8 @@ jobs:
       # For pushing to GHCR
       packages: write
       # For attestation step
-      id-token: write
-      attestations: write
+      # id-token: write
+      # attestations: write
 
     steps:
       - uses: actions/checkout@v4
@@ -52,21 +52,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-<<<<<<< HEAD
-          tags: type=ref,event=tag,pattern={{version}}
-=======
-<<<<<<< Updated upstream
-          tags: |
-            type=semver,pattern={{version}}
-=======
-<<<<<<< HEAD
-          tags: type=ref,event=tag,pattern={{version}}
-=======
-          tags: |
-            type=semver,pattern={{version}}
->>>>>>> release/0.0.4
->>>>>>> Stashed changes
->>>>>>> release/0.0.4
+          tags: type=semver,pattern={{version}}
       - run: echo ${{ steps.meta.outputs.tags }}
 
       # - name: Build and Push Docker image
