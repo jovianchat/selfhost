@@ -2,7 +2,7 @@ name: Production - Publish Docker Image to GHCR
 
 on:
   # push:
-  pull_request:
+  push:
     branches: [main]
 env:
   REGISTRY: ghcr.io
@@ -52,13 +52,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=ref,event=tag,pattern={{version}}
-          #   type=schedule
-          #   type=ref,event=branch
-          #   type=ref,event=pr
-          #   type=semver,pattern={{major}}.{{minor}}
-          #   type=semver,pattern={{major}}
-          #   type=sha
+          tags: type=semver,pattern={{version}}
+
       - run: echo ${{ steps.meta.outputs.tags }}
       - name: Build and Push Docker image
         id: push
@@ -71,13 +66,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+      # - name: Generate artifact attestation
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #     subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+      #     subject-digest: ${{ steps.push.outputs.digest }}
+      #     push-to-registry: true
 
-      - name: Inspect
-        run: |
-          docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # - name: Inspect
+      #   run: |
+      #     docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
