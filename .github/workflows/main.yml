@@ -52,7 +52,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=semver,pattern={{version}}
+          tags: type=ref,event=tag,pattern={{version}}
       - run: echo ${{ steps.meta.outputs.tags }}
 
       # - name: Build and Push Docker image
