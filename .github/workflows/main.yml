@@ -52,8 +52,17 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+<<<<<<< Updated upstream
           tags: |
             type=semver,pattern={{version}}
+=======
+<<<<<<< HEAD
+          tags: type=ref,event=tag,pattern={{version}}
+=======
+          tags: |
+            type=semver,pattern={{version}}
+>>>>>>> release/0.0.4
+>>>>>>> Stashed changes
       - run: echo ${{ steps.meta.outputs.tags }}
 
       # - name: Build and Push Docker image
