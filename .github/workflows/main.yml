@@ -10,16 +10,16 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  # axum-api:
-  #   uses: ./.github/workflows/axum-api.yml
+  axum-api:
+    uses: ./.github/workflows/axum-api.yml
 
-  # svelte-ui:
-  #   uses: ./.github/workflows/svelte-ui.yml
+  svelte-ui:
+    uses: ./.github/workflows/svelte-ui.yml
 
   build:
-    # needs:
-    #   - axum-api
-    #   - svelte-ui
+    needs:
+      - axum-api
+      - svelte-ui
     runs-on: ubuntu-22.04
 
     environment: production
@@ -34,19 +34,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # Download build artifacts
-      # - uses: actions/download-artifact@v4
-      #   with:
-      #     path: artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      # - name: Login to GHCR
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: ${{ env.REGISTRY }}
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -54,26 +54,28 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: type=semver,pattern={{version}}
+          labels: |
+            org.opencontainers.image.description=Self-Hosted AI Chat App
       - run: echo ${{ steps.meta.outputs.tags }}
 
-      # - name: Build and Push Docker image
-      #   id: push
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: ./docker-infra/Dockerfile
-      #     load: true
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and Push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./docker-infra/Dockerfile
+          load: true
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      # - name: Generate artifact attestation
-      #   uses: actions/attest-build-provenance@v1
-      #   with:
-      #     subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-      #     subject-digest: ${{ steps.push.outputs.digest }}
-      #     push-to-registry: true
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
 
-      # - name: Inspect
-      #   run: |
-      #     docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Inspect
+        run: |
+          docker image inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
