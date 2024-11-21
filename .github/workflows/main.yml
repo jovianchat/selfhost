@@ -65,7 +65,7 @@ jobs:
         with:
           context: .
           file: ./docker-infra/Dockerfile
-          # load: true
+          load: true
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
