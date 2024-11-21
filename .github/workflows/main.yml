@@ -65,7 +65,7 @@ jobs:
         with:
           context: .
           file: ./docker-infra/Dockerfile
-          load: true
+          # load: true
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
@@ -73,7 +73,7 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: sha256:0043e02954d9fbcd2fa3a90b99b956468b195ed4c0d87b0c00e490943bdef534
+          subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
       - name: Inspect
