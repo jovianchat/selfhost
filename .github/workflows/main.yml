@@ -42,7 +42,8 @@ jobs:
 
       - name: Get tag
         run: |
-          TAG=$(git tag --points-at HEAD)
+          git tag --points-at HEAD
+          echo git tag --points-at HEAD
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Use detected tag
