@@ -43,7 +43,7 @@ jobs:
       - name: Get tag
         id: get_tag
         run: |
-          TAG=$(git tag --points-at HEAD)
+          TAG=$(git tag)
           if [ -n "$TAG" ]; then
             echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
