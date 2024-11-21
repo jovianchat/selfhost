@@ -1,0 +1,41 @@
+name: Svelte_UI
+
+on:
+  workflow_call:
+
+defaults:
+  run:
+    working-directory: svelte-ui
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - uses: actions/checkout@v4
+      # Step 2: Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      # Step 3: Install Node.js and cache dependencies
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: "pnpm"
+          cache-dependency-path: svelte-ui/pnpm-lock.yaml
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: pnpm install
+      # Step 5: Build
+      - name: Build
+        run: pnpm run build
+      # Step 6: Upload build artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: svelte_build_output
+          path: |
+            svelte-ui/build
+            svelte-ui/package.json
+            svelte-ui/node_modules

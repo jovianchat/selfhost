@@ -1,0 +1,18 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	scrollbar-gutter: stable; /* Scrollbar space even if theres no scrollbar to keep content from flickering */
+}
+.btn_emerald {
+	@apply rounded bg-emerald-600 px-3 py-1 text-base-content transition duration-150 hover:bg-emerald-700;
+}
+.btn_red {
+	@apply rounded bg-red-500 bg-opacity-90 px-3 py-1 text-base-content transition duration-150 hover:bg-red-600;
+}

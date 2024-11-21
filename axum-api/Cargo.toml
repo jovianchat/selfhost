@@ -1,0 +1,37 @@
+[package]
+name = "axum-api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.40.0", features = ["full"] }
+
+# Http server and middleware
+axum = { version = "0.7.7", features = ["macros"] }
+axum-extra = { version = "0.9.4", features = ["cookie", "typed-header"] }
+tower = "0.5.1"
+hyper = "1.5.0"
+tower-http = { version = "0.6.1", features = ["cors", "normalize-path", "request-id", "timeout", "trace"] }
+
+# Database
+moka = { version = "0.12.8", features = ["future"] }
+sqlx = { version = "0.8.2", features = ["postgres", "chrono", "runtime-tokio-rustls", "macros", "migrate", "uuid"] }
+
+# State of the art password hashing and auth crates
+argon2 = { version = "0.5.3", features = ["password-hash"] }
+jsonwebtoken = "9.3.0"
+
+# Logging and tracing and error handling
+anyhow = "1.0.89"
+thiserror = "1.0.64"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# Auxiliary crates
+serde = "1.0.210"
+serde_json = "1.0.132"
+uuid = { version = "1.11.0", features = ["serde"] }
+toml = "0.8.19"
+chrono = { version = "0.4.38", features = ["serde"] }

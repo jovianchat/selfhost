@@ -1,0 +1,22 @@
+{
+	"name": "svelte_ui-bc_sh",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+	"runArgs": ["--env-file=.env", "--network=host"],
+	"containerEnv": {
+		"TZ": "America/Vancouver"
+	},
+	"postCreateCommand": ".devcontainer/postCreateCommand.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"formulahendry.auto-rename-tag", //Auto Rename Tag
+				"cardinal90.multi-cursor-case-preserve", //Multi Cursor Case Preserve
+				"bradlc.vscode-tailwindcss", //Tailwind
+				"svelte.svelte-vscode", //Svelte
+				"ardenivanov.svelte-intellisense", //Svelte IntelliSense
+				"fivethree.vscode-svelte-snippets" //Svelte Snippets
+			]
+		}
+	},
+	"shutdownAction": "stopContainer"
+}
