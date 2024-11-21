@@ -1,0 +1,24 @@
+{
+	"name": "axum_api-bc_sh",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	// "postCreateCommand": ".devcontainer/postCreateCommand.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"cweijan.vscode-database-client2", // db client
+				"rust-lang.rust-analyzer",
+				"fill-labs.dependi"
+			]
+		}
+	},
+	"shutdownAction": "stopCompose",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		}
+	}
+}

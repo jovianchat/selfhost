@@ -1,0 +1,76 @@
+volumes:
+  postgres-data:
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    
+    env_file:
+      - ../.env
+    environment:
+      - TZ=America/Vancouver
+
+    volumes:
+      # Forwards the local Docker socket to the container.
+      - /var/run/docker.sock:/var/run/docker-host.sock 
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ../..:/workspaces:cached
+    network_mode: host
+
+    # Overrides default command so things don't shut down after the process ends.
+    entrypoint: /usr/local/share/docker-init.sh
+    command: sleep infinity
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    env_file:
+      - ../.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Mount volume to persist PostgreSQL data
+    network_mode: host
+
+    # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
+    # cap_add:
+    #  - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     container_name: pgadmin
+#     environment:
+#       - PGADMIN_DEFAULT_EMAIL=postgres@example.com
+#       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+#       - PGADMIN_CONFIG_SERVER_MODE=False
+#       - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+#     entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+#     user: root
+#     configs:
+#       - source: servers.json
+#         target: /pgadmin4/servers.json
+#       - source: pgpass
+#         target: /pgpass
+#     ports:
+#       - '5050:80'
+
+# configs:
+#   pgpass:
+#     content: postgres:5432:*:${POSTGRES_USER}:${POSTGRES_PASSWORD}
+#   servers.json:
+#     content: |
+#       {"Servers": {"1": {
+#         "Group": "Servers",
+#         "Name": "My Local Postgres development server",
+#         "Host": "postgres",
+#         "Port": 5432,
+#         "MaintenanceDB": "${POSTGRES_DB}",
+#         "Username": "${POSTGRES_USER}",
+#         "PassFile": "/pgpass",
+#         "SSLMode": "prefer"
+#       }}}
